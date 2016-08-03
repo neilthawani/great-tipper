@@ -1,14 +1,17 @@
 import Ember from 'ember';
+import truncateDecimal from 'great-tipper/utils/truncate-decimal';
 
 export default Ember.Controller.extend({
     mealCost: null,
     tipPercentage: 20,
-    tipAmount: Ember.computed('mealCost', 'tipPercentage', function() {
+    tipAmount: Ember.computed('mealCost', 'tipPercentage', {
+    	get: function() {
     		let mealCost = this.get('mealCost'),
     			tipPercentage = this.get('tipPercentage'),
     			tipAmount = mealCost * (tipPercentage / 100);
 
-    		return this.truncateDecimal(tipAmount);
+    		return truncateDecimal(tipAmount) || 0;
+    	}
     }),
     totalAmount: Ember.computed('mealCost', 'tipAmount', {
         get: function() {
@@ -28,51 +31,10 @@ export default Ember.Controller.extend({
         }
     }),
 
-    // preset calculations for 15%, 18%, and 20% tips
-    // automatic calculations for 15%, 18%, and 20%.
-    // When the user enters an amount for the cost of the meal, they should automatically see these three values.
-    truncateDecimal: function(value) {
-        return Math.round(value * 100) / 100;
-    },
-    fifteenPercentTip: Ember.computed('mealCost', {
-        get: function() {
-            let mealCost = this.get('mealCost');
-            return this.truncateDecimal(mealCost * 0.15);
-        }
-    }),
-    eighteenPercentTip: Ember.computed('mealCost', {
-        get: function() {
-            let mealCost = this.get('mealCost');
-            return this.truncateDecimal(mealCost * 0.18);
-        }
-    }),
-    twentyPercentTip: Ember.computed('mealCost', {
-        get: function() {
-            let mealCost = this.get('mealCost');
-            return this.truncateDecimal(mealCost * 0.20);
-        }
-    }),
-
     // when the user clicks a button, the tip percentage is automatically set to that amount
     actions: {
-        setTipAmount: function(value) {
-            let tipAmount = 0;
-            switch (value) {
-                case (15):
-                    tipAmount = this.get('fifteenPercentTip');
-                    break;
-                case (18):
-                    tipAmount = this.get('eighteenPercentTip');
-                    break;
-                case (20):
-                    tipAmount = this.get('twentyPercentTip');
-                    break;
-                default:
-                    break;
-
-            }
-
-            this.set('tipAmount', tipAmount);
+        setTipPercentage: function(value) {
+            this.set('tipPercentage', value);
         }
     }
 

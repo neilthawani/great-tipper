@@ -17,9 +17,20 @@
     <div class="col-md-6">
       <label>How much would you like to tip?</label>
       <div>
-        <button class="btn btn-primary" {{action "setTipAmount" 15}}>15% (${{fifteenPercentTip}})</button>
-        <button class="btn btn-primary" {{action "setTipAmount" 18}}>18% (${{eighteenPercentTip}})</button>
-        <button class="btn btn-primary" {{action "setTipAmount" 20}}>20% (${{twentyPercentTip}})</button>
+        {{tip-button
+            mealCost = mealCost
+            tipPercentage = 15
+            setTipPercentage = "setTipPercentage" }}
+
+        {{tip-button
+            mealCost = mealCost
+            tipPercentage = 18
+            setTipPercentage = "setTipPercentage" }}
+
+        {{tip-button
+            mealCost = mealCost
+            tipPercentage = 20
+            setTipPercentage = "setTipPercentage" }}
       </div>
 
       <h2>OR</h2>
