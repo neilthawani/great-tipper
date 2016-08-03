@@ -59,4 +59,28 @@
   Tip: {{dollar-format tipAmount}}
   <br />
   Total: {{dollar-format totalAmount}}
+  <br />
+  <button class="btn btn-primary" {{action "saveAmounts"}}>Save Amounts</button>
 </div>
+
+{{#if previousAmounts}}
+<div class="container">
+  <table>
+    <tr>
+      <th>Meal Cost</th>
+      <th>Tip %</th>
+      <th>Tip Amount</th>
+      <th>Total</th>
+    </tr>
+
+    {{#each previousAmounts as |previousAmount|}}
+      <tr>
+        <td>{{dollar-format previousAmount.mealCost}}</td>
+        <td>{{previousAmount.tipPercentage}}%</td>
+        <td>{{dollar-format previousAmount.tipAmount}}</td>
+        <td>{{dollar-format previousAmount.totalAmount}}</td>
+      </tr>
+    {{/each}}
+  </table>
+</div>
+{{/if}}
