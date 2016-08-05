@@ -31,12 +31,12 @@ export default Ember.Controller.extend({
         }
     }),
 
-    previousAmounts: Ember.computed('savedAmountsToggle', {
+    previousAmounts: Ember.computed('numberOfSavedAmounts', {
         get: function() {
             return JSON.parse(window.localStorage.getItem('previousAmounts')) || [];
         }
     }),
-    savedAmountsToggle: false,
+    numberOfSavedAmounts: 0,
 
     // when the user clicks a button, the tip percentage is automatically set to that amount
     actions: {
@@ -60,7 +60,7 @@ export default Ember.Controller.extend({
             });
 
             window.localStorage.setItem('previousAmounts', JSON.stringify(previousAmounts));
-            this.toggleProperty('savedAmountsToggle');
+            this.incrementProperty('numberOfSavedAmounts');
         }
     }
 });
